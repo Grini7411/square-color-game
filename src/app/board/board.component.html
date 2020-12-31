@@ -1,0 +1,10 @@
+<h1>Current Player: </h1>
+
+<button nbButton outline status="danger" (click)="newGame()">Start new Game</button>
+
+<main>
+  <app-square
+    *ngFor="let val of squares; let i = index"
+    [value]="val">
+  </app-square>
+</main>
