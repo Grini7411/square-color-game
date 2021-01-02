@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "color-game-d825e": {
+      "hosting": {
+        "square-color-game": [
+          "color-game-d825e"
+        ]
+      }
+    }
+  }
+}
