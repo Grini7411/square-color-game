@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import { NbDialogService} from '@nebular/theme';
+import {LoginModalComponent} from '../login-modal/login-modal.component';
+
+
 
 @Component({
   selector: 'app-board',
@@ -6,15 +10,28 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./board.component.css']
 })
 export class BoardComponent implements OnInit {
+  @Input() isLoggedIn: boolean;
+  @ViewChild('board') board;
   squares: string[];
-  constructor() {}
+  constructor(private dialogService: NbDialogService) {}
 
   ngOnInit(): void {
-    this.newGame();
+    if (!this.isLoggedIn){
+
+    }
   }
 
   newGame(): void {
+    // Open Modal with name
+    this.openLoginModal();
+
+    // Wait for an opponent
+    // close the modal and start play
     this.squares = Array(9).fill(null);
+  }
+
+  openLoginModal(): void {
+    this.dialogService.open(LoginModalComponent, {});
   }
 
 }

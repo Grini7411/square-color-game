@@ -3,7 +3,17 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebase: {
+    apiKey: 'AIzaSyBa36UmNJVslu6LVr08Xby54kvpjJGbDrE',
+    authDomain: 'color-game-d825e.firebaseapp.com',
+    projectId: 'color-game-d825e',
+    storageBucket: 'color-game-d825e.appspot.com',
+    messagingSenderId: '444809569063',
+    appId: '1:444809569063:web:dc2377f1bdbad6d32d3f02',
+    measurementId: 'G-L6JE20EZW5'
+  },
+  base_URL: 'https://color-game-d825e-default-rtdb.firebaseio.com/'
 };
 
 /*

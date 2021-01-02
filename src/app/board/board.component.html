@@ -2,7 +2,7 @@
 
 <button nbButton outline status="danger" (click)="newGame()">Start new Game</button>
 
-<main>
+<main #board>
   <app-square
     *ngFor="let val of squares; let i = index"
     [value]="val">

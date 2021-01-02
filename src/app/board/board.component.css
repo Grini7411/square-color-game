@@ -1,10 +1,17 @@
 main {
   display: grid;
   grid-template-columns: 200px 200px 200px;
-  grid-gap: 0px;
+  grid-gap: 0;
 }
 
 app-square {
   border: 1px gray solid;
   height: 200px;
+}
+
+.overlay-board{
+  height: 100%;
+  width: 100%;
+  background: darkgray;
+  content: "please log in to game"
 }
