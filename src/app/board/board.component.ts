@@ -13,18 +13,15 @@ export class BoardComponent implements OnInit {
   @Input() isLoggedIn: boolean;
   @ViewChild('board') board;
   squares: string[];
+  curPlayer: string;
   constructor(private dialogService: NbDialogService) {}
 
   ngOnInit(): void {
-    if (!this.isLoggedIn){
-
-    }
   }
 
   newGame(): void {
     // Open Modal with name
     this.openLoginModal();
-
     // Wait for an opponent
     // close the modal and start play
     this.squares = Array(9).fill(null);
@@ -34,4 +31,7 @@ export class BoardComponent implements OnInit {
     this.dialogService.open(LoginModalComponent, {});
   }
 
+  joinGame(): void {
+
+  }
 }

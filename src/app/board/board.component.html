@@ -1,6 +1,7 @@
-<h1>Current Player: </h1>
+<h1>Current Player: {{curPlayer}}</h1>
 
 <button nbButton outline status="danger" (click)="newGame()">Start new Game</button>
+<button nbButton outline status="info" (click)="joinGame()">Join Game</button>
 
 <main #board>
   <app-square

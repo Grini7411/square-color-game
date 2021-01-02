@@ -6,6 +6,8 @@ import { BoardComponent } from './board/board.component';
 import { SquareComponent } from './square/square.component';
 
 import { AppRoutingModule } from './app-routing.module';
+import {HttpClientModule} from '@angular/common/http';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   NbThemeModule,
@@ -38,6 +40,7 @@ import { LoginModalComponent } from './login-modal/login-modal.component';
   ],
     imports: [
       BrowserModule,
+      HttpClientModule,
       AppRoutingModule,
       BrowserAnimationsModule,
       NbThemeModule.forRoot({ name: 'cosmic' }),
