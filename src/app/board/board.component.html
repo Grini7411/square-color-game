@@ -1,7 +1,6 @@
 <h1>Current Player: {{curPlayer}}</h1>
 
 <button nbButton outline status="danger" (click)="newGame()">Start new Game</button>
-<button nbButton outline status="info" (click)="joinGame()">Join Game</button>
 
 <main #board>
   <app-square
@@ -9,3 +8,21 @@
     [value]="val">
   </app-square>
 </main>
+
+  <nb-card size="sm" style="width: 750px">
+    <nb-card-header>
+      Games
+    </nb-card-header>
+    <nb-list>
+      <nb-list-item *ngFor="let game of games ">
+        <div style="width: 100%">
+          <span style="font-size: 1.5rem;">{{ game.host.name}}</span>
+          <button nbButton outline status="success" style="float: right" (click)="joinGame(game.name)"> Join Game</button>
+        </div>
+      </nb-list-item>
+    </nb-list>
+  </nb-card>
+
+
+
+

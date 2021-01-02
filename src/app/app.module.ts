@@ -16,7 +16,8 @@ import {
   NbWindowModule,
   NbInputModule,
   NbDialogService,
-  NbDialogModule,
+  NbListModule,
+  NbDialogModule, NbCardModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import {AngularFireModule} from '@angular/fire';
@@ -38,22 +39,24 @@ import { LoginModalComponent } from './login-modal/login-modal.component';
     SquareComponent,
     LoginModalComponent
   ],
-    imports: [
-      BrowserModule,
-      HttpClientModule,
-      AppRoutingModule,
-      BrowserAnimationsModule,
-      NbThemeModule.forRoot({ name: 'cosmic' }),
-      NbLayoutModule,
-      NbWindowModule.forRoot(),
-      NbInputModule,
-      NbEvaIconsModule,
-      NbButtonModule,
-      NbDialogModule.forRoot(),
-      AngularFireModule.initializeApp(environment.firebase),
-      AngularFireAuthModule,
-      AngularFirestoreModule
-    ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    NbThemeModule.forRoot({name: 'cosmic'}),
+    NbLayoutModule,
+    NbListModule,
+    NbWindowModule.forRoot(),
+    NbInputModule,
+    NbEvaIconsModule,
+    NbButtonModule,
+    NbDialogModule.forRoot(),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    AngularFirestoreModule,
+    NbCardModule
+  ],
   providers: [NbDialogService],
   bootstrap: [AppComponent]
 })

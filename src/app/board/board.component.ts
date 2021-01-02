@@ -1,8 +1,8 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import { NbDialogService} from '@nebular/theme';
 import {LoginModalComponent} from '../login-modal/login-modal.component';
-
-
+import {GameService} from '../services/game.service';
+import {IGame} from '../../types';
 
 @Component({
   selector: 'app-board',
@@ -14,9 +14,13 @@ export class BoardComponent implements OnInit {
   @ViewChild('board') board;
   squares: string[];
   curPlayer: string;
-  constructor(private dialogService: NbDialogService) {}
+  games: IGame[] = [];
+  constructor(private dialogService: NbDialogService, private gameServ: GameService) {}
 
   ngOnInit(): void {
+    this.gameServ.getAllGames().valueChanges().subscribe(games => {
+      games.forEach(game => this.games.push(game));
+    });
   }
 
   newGame(): void {
@@ -31,7 +35,7 @@ export class BoardComponent implements OnInit {
     this.dialogService.open(LoginModalComponent, {});
   }
 
-  joinGame(): void {
+  joinGame(id: string): void {
 
   }
 }
