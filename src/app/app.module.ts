@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule} from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { BoardComponent } from './board/board.component';
@@ -17,6 +17,7 @@ import {
   NbInputModule,
   NbDialogService,
   NbListModule,
+
   NbDialogModule, NbCardModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
@@ -26,6 +27,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 
 import {environment} from '../environments/environment';
 import { LoginModalComponent } from './login-modal/login-modal.component';
+import { SignUpModalComponent } from './sign-up-modal/sign-up-modal.component';
 
 
 
@@ -37,7 +39,8 @@ import { LoginModalComponent } from './login-modal/login-modal.component';
     AppComponent,
     BoardComponent,
     SquareComponent,
-    LoginModalComponent
+    LoginModalComponent,
+    SignUpModalComponent
   ],
   imports: [
     BrowserModule,

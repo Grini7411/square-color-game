@@ -1,11 +1,11 @@
 export interface IUser {
-  uid: string;
-  name: string;
+  email: string;
+  password: string;
   cratedAt: string;
 }
 
 export interface IGame {
-  $key?: string;
+  key?: string;
   host: IUser;
   joiner?: IUser;
   state: number;

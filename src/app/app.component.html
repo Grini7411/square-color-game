@@ -1,7 +1,9 @@
 <nb-layout>
 
   <nb-layout-header fixed>
-    Welcome to the Color game!!
+    Welcome to the Color game {{player || "Guest"}}!!
+    <button nbButton [disabled]="" shape="round" status="primary" (click)="openModal(true)">Login</button>
+    <button nbButton [disabled]="" shape="round" status="primary" (click)="openModal(false)">Sign-Up</button>
   </nb-layout-header>
 
   <nb-layout-column>

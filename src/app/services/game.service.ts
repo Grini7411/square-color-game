@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AngularFireDatabase, AngularFireList, AngularFireObject} from '@angular/fire/database';
-import {IGame, IUser} from '../../types';
+import {IGame} from '../../types';
 import {formatDate} from '@angular/common';
 import firebase from 'firebase';
 import database = firebase.database;
+import {AngularFireAuth} from '@angular/fire/auth';
+import {AuthService} from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,49 +14,48 @@ import database = firebase.database;
 export class GameService {
   gameDetails: AngularFireObject<IGame>;
   games: AngularFireList<IGame>;
-  constructor(private http: HttpClient, private db: AngularFireDatabase) { }
+  constructor(private http: HttpClient, private db: AngularFireDatabase, private fireAuth: AngularFireAuth,
+              private authServ: AuthService) { }
 
   getAllGames(): AngularFireList<IGame> {
     this.games = this.db.list('/games') as AngularFireList<IGame>;
     return this.games;
   }
 
-  onCreateGame(host: IUser): database.ThenableReference {
+  createGame(): database.ThenableReference {
     const now: string = formatDate(new Date(), 'HH:mm:ss dd/MM/yyyy', 'en-US');
-    const gameObj: IGame = {
-      host,
+    const currentUser: any = this.authServ.userLogged.getValue();
+    const userCreatedAt: string = new Date(+JSON.parse(localStorage.getItem('user')).user.createdAt).toLocaleString();
+    const gameObj: any = {
+      host: {email: currentUser.user.email,
+             uid: currentUser.user.uid,
+             createdAt: userCreatedAt
+      },
       createdAt: now,
-      state: 1
+      state: 1,
     };
     if (!this.games) {
       return this.db.database.ref('/games').push(gameObj);
     }
     else {
       return this.games.push(gameObj);
-
     }
-    }
-
-  getExistingGame(key: string): AngularFireObject<IGame> {
-    this.gameDetails = this.db.object('/game/' + key) as AngularFireObject<IGame>;
-    return this.gameDetails;
   }
 
-  updateGame(game: IGame, userJoining: IUser): Promise<void> {
-    if (this.games == null) {
-      const reference = this.db.database.ref('/games/' + game.$key);
-      delete game.$key; // You should delete this otherwise the update call will fail
-      return reference.update({
-        ...game,
-        joiner: userJoining
-      });
-    }
-    else {
-      return this.games.update(game.$key, {
-        ...game,
-        joiner: userJoining
-      });
-    }
+  updateGame(gameId: string): Promise<void> {
+    const currentUser = this.fireAuth.currentUser;
+    const reference = this.db.database.ref(`/games/${gameId}`);
+    delete reference.key; // You should delete this otherwise the update call will fail
+    const objToUpdate = {
+      key: gameId
+    };
+    return reference.update(objToUpdate);
+  }
+
+
+  getExistingGame(key: string): AngularFireObject<IGame> {
+    this.gameDetails = this.db.object('/games/' + key) as AngularFireObject<IGame>;
+    return this.gameDetails;
   }
 
 }
