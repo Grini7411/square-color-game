@@ -1,7 +1,7 @@
 export interface IUser {
   email: string;
-  password: string;
-  cratedAt: string;
+  password?: string;
+  createdAt: string;
 }
 
 export interface IGame {

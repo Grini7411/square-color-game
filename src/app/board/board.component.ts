@@ -3,7 +3,6 @@ import { NbDialogService} from '@nebular/theme';
 import {GameService} from '../services/game.service';
 import {IGame} from '../../types';
 import {AuthService} from '../services/auth.service';
-import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-board',
@@ -13,7 +12,7 @@ import {map} from 'rxjs/operators';
 export class BoardComponent implements OnInit {
   @ViewChild('board') board;
   squares: string[];
-  curPlayer: { uid: string, email: string };
+  curPlayer: { uid: string, email: string } = {uid: '', email: ''};
   games: IGame[] = [];
   isUserLogged: boolean;
   curGame: string;
@@ -22,14 +21,11 @@ export class BoardComponent implements OnInit {
 
   ngOnInit(): void {
     this.gameServ.getAllGames().snapshotChanges().subscribe(data => {
-      data.forEach(game => {
-        // tslint:disable-next-line:no-shadowed-variable
-        this.games = data.map(game => {
-          const payLoadObj = game.payload.val();
-          return {key: game.payload.key, state: payLoadObj.state, createdAt: payLoadObj.createdAt, host: payLoadObj.host}
-        });
+      // tslint:disable-next-line:no-shadowed-variable
+      this.games = data.map(game => {
+        const payLoadObj = game.payload.val();
+        return {key: game.payload.key, state: payLoadObj.state, createdAt: payLoadObj.createdAt, host: payLoadObj.host};
       });
-      console.log(this.games);
     });
 
 
@@ -49,10 +45,9 @@ export class BoardComponent implements OnInit {
     this.fillSquares();
   }
 
-  joinGame(gameId: string): void {
-    debugger;
-
-    this.gameServ.updateGame(gameId);
+  joinGame($event, index: number): void {
+    console.log('current game is, ', this.games[index]);
+    this.gameServ.updateGame(this.games[index].key);
   }
 
   fillSquares(): void {

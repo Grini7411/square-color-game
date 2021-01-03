@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AngularFireDatabase, AngularFireList, AngularFireObject} from '@angular/fire/database';
-import {IGame} from '../../types';
+import {IGame, IUser} from '../../types';
 import {formatDate} from '@angular/common';
 import firebase from 'firebase';
 import database = firebase.database;
@@ -43,19 +43,21 @@ export class GameService {
   }
 
   updateGame(gameId: string): Promise<void> {
-    const currentUser = this.fireAuth.currentUser;
-    const reference = this.db.database.ref(`/games/${gameId}`);
-    delete reference.key;
-    const objToUpdate = {
-      key: gameId
+    const ref = this.db.database.ref(`/games/${gameId}`);
+    delete ref.key;
+    const joiner: IUser = {
+      email: this.authServ.userLogged.value.user.email,
+      createdAt: new Date(+JSON.parse(localStorage.getItem('user')).user.createdAt).toLocaleString()
     };
-    return reference.update(objToUpdate);
+    const objToUpdate: any = {
+      joiner,
+      status: 2
+    };
+    return ref.update(objToUpdate);
   }
-
 
   getExistingGame(key: string): AngularFireObject<IGame> {
     this.gameDetails = this.db.object('/games/' + key) as AngularFireObject<IGame>;
     return this.gameDetails;
   }
-
 }
