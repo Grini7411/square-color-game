@@ -16,6 +16,7 @@ export class BoardComponent implements OnInit {
   games: IGame[] = [];
   isUserLogged: boolean;
   curGame: string;
+  gameStatus: string;
 
   constructor(private dialogService: NbDialogService, private authServ: AuthService, private gameServ: GameService) {}
 
@@ -28,7 +29,6 @@ export class BoardComponent implements OnInit {
       });
     });
 
-
     this.authServ.userLogged.subscribe(user => {
       if (Object.keys(this.authServ.userLogged.value).length > 1) {
         this.isUserLogged = true;
@@ -38,9 +38,12 @@ export class BoardComponent implements OnInit {
   }
 
   newGame(): void {
-
     this.curGame = this.gameServ.createGame().key;
     // Wait for an opponent
+    if (this.curGame) {
+      this.gameStatus = 'Waiting for another player to join';
+      //this.
+    }
     // close the modal and start play
     this.fillSquares();
   }

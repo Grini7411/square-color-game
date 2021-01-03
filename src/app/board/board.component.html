@@ -1,7 +1,7 @@
 <h1>Current Player: {{curPlayer.email}}</h1>
+<h2>Status: {{gameStatus}}</h2>
 
 <button nbButton [disabled]="!isUserLogged" outline status="danger" (click)="newGame()">Start new Game</button>
-
 <main #board>
   <app-square
     *ngFor="let val of squares; let i = index"
