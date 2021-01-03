@@ -3,6 +3,7 @@ import { NbDialogService} from '@nebular/theme';
 import {GameService} from '../services/game.service';
 import {IGame} from '../../types';
 import {AuthService} from '../services/auth.service';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-board',
@@ -20,9 +21,18 @@ export class BoardComponent implements OnInit {
   constructor(private dialogService: NbDialogService, private authServ: AuthService, private gameServ: GameService) {}
 
   ngOnInit(): void {
-    this.gameServ.getAllGames().valueChanges().subscribe(games => {
-      games.forEach(game => this.games.push(game));
+    this.gameServ.getAllGames().snapshotChanges().subscribe(data => {
+      data.forEach(game => {
+        // tslint:disable-next-line:no-shadowed-variable
+        this.games = data.map(game => {
+          const payLoadObj = game.payload.val();
+          return {key: game.payload.key, state: payLoadObj.state, createdAt: payLoadObj.createdAt, host: payLoadObj.host}
+        });
+      });
+      console.log(this.games);
     });
+
+
     this.authServ.userLogged.subscribe(user => {
       if (Object.keys(this.authServ.userLogged.value).length > 1) {
         this.isUserLogged = true;
@@ -40,6 +50,8 @@ export class BoardComponent implements OnInit {
   }
 
   joinGame(gameId: string): void {
+    debugger;
+
     this.gameServ.updateGame(gameId);
   }
 

@@ -45,7 +45,7 @@ export class GameService {
   updateGame(gameId: string): Promise<void> {
     const currentUser = this.fireAuth.currentUser;
     const reference = this.db.database.ref(`/games/${gameId}`);
-    delete reference.key; // You should delete this otherwise the update call will fail
+    delete reference.key;
     const objToUpdate = {
       key: gameId
     };
