@@ -28,6 +28,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import {environment} from '../environments/environment';
 import { LoginModalComponent } from './login-modal/login-modal.component';
 import { SignUpModalComponent } from './sign-up-modal/sign-up-modal.component';
+import { GameListComponent } from './game-list/game-list.component';
 
 
 
@@ -40,7 +41,8 @@ import { SignUpModalComponent } from './sign-up-modal/sign-up-modal.component';
     BoardComponent,
     SquareComponent,
     LoginModalComponent,
-    SignUpModalComponent
+    SignUpModalComponent,
+    GameListComponent
   ],
   imports: [
     BrowserModule,

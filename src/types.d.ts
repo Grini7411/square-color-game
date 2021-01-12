@@ -9,5 +9,7 @@ export interface IGame {
   host: IUser;
   joiner?: IUser;
   state: number;
+  gameState: string[];
   createdAt: string;
 }
+

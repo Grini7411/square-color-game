@@ -2,14 +2,20 @@
 
   <nb-layout-header fixed>
     Welcome to the Color game {{player || "Guest"}}!!
-    <button nbButton [disabled]="" shape="round" status="primary" (click)="openModal(true)">Login</button>
+    <ng-container *ngTemplateOutlet="isUserLogged ? logged : notLogged" ></ng-container>
+    <ng-template #notLogged>
+      <button nbButton  shape="round" status="primary" (click)="openModal(true)">Login</button>
+    </ng-template>
+    <ng-template #logged>
+      <button nbButton  shape="round" status="primary" (click)="openModal(true)">Logout</button>
+    </ng-template>
     <button nbButton [disabled]="" shape="round" status="primary" (click)="openModal(false)">Sign-Up</button>
   </nb-layout-header>
 
   <nb-layout-column>
 
-    <app-board></app-board>
-
+    <app-board [isUserLoggedIn]="isUserLogged"></app-board>
+    <app-game-list *ngIf="isUserLogged" [userLogged]="curPlayer" [games]="games"></app-game-list>
     <router-outlet></router-outlet>
   </nb-layout-column>
 

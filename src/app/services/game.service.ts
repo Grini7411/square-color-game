@@ -8,6 +8,15 @@ import database = firebase.database;
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AuthService} from './auth.service';
 
+
+export enum STATE {
+  CREATED,
+  JOINED,
+  HOST_TURN,
+  JOINER_TURN
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -27,19 +36,41 @@ export class GameService {
     const currentUser: any = this.authServ.userLogged.getValue();
     const userCreatedAt: string = new Date(+JSON.parse(localStorage.getItem('user')).user.createdAt).toLocaleString();
     const gameObj: any = {
-      host: {email: currentUser.user.email,
-             uid: currentUser.user.uid,
-             createdAt: userCreatedAt
+      host: {
+        email: currentUser.user.email,
+        uid: currentUser.user.uid,
+        createdAt: userCreatedAt
       },
       createdAt: now,
-      state: 1,
+      state: STATE.CREATED,
+      gameState: Array(9).fill('')
     };
+    const ref = this.db.database.ref('games');
+    ref.push().set(gameObj);
     if (!this.games) {
       return this.db.database.ref('/games').push(gameObj);
     }
     else {
       return this.games.push(gameObj);
     }
+  }
+
+  joinGame(gameId: string): void {
+    const gameRef = this.db.database.ref('games').child(gameId);
+    gameRef.transaction((game) => {
+      if (!game.joiner) {
+        game.state = STATE.JOINED;
+        game.gameState = Array(9).fill('');
+        game.joiner = {
+          email: this.authServ.userLogged.value.user.email,
+          createdAt: new Date(+JSON.parse(localStorage.getItem('user')).user.createdAt).toLocaleString()
+        };
+        gameRef.on('value', (snapshot) => {
+          console.log(snapshot);
+        });
+      }
+      return game;
+    });
   }
 
   updateGame(gameId: string): Promise<void> {
@@ -53,7 +84,14 @@ export class GameService {
       joiner,
       status: 2
     };
-    return ref.update(objToUpdate);
+    return ref.update(objToUpdate).then(value => {
+      console.log(value);
+    });
+  }
+
+  updateGameState(index: number, value: string): void {
+    this.db.database.ref(`games`).on('child_changed', (snapshot) => {
+    });
   }
 
   getExistingGame(key: string): AngularFireObject<IGame> {

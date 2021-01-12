@@ -1,27 +1,17 @@
 <h1>Current Player: {{curPlayer.email}}</h1>
 <h2>Status: {{gameStatus}}</h2>
 
-<button nbButton [disabled]="!isUserLogged" outline status="danger" (click)="newGame()">Start new Game</button>
+<button nbButton [disabled]="!isUserLoggedIn" outline status="danger" (click)="newGame()">Start new Game</button>
 <main #board>
   <app-square
     *ngFor="let val of squares; let i = index"
-    [value]="val">
+    [value]="val"
+    [index]="i"
+  >
   </app-square>
 </main>
 
-  <nb-card size="sm" style="width: 750px">
-    <nb-card-header>
-      Games
-    </nb-card-header>
-    <nb-list>
-      <nb-list-item *ngFor="let game of games; let i = index">
-        <div style="width: 100%">
-          <span style="font-size: 1.5rem;">{{game.host?.email}}</span>
-          <button nbButton outline status="success" style="float: right" [disabled]="!isUserLogged" (click)="joinGame($event, i)"> Join Game</button>
-        </div>
-      </nb-list-item>
-    </nb-list>
-  </nb-card>
+
 
 
 
